@@ -1,0 +1,294 @@
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Responsive Table | Uplon - Responsive Bootstrap 4 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description">
+    <meta content="Coderthemes" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="\assets\images\favicon.ico">
+
+    <!-- Responsive Table css -->
+    <link href="\assets\libs\rwd-table\rwd-table.min.css" rel="stylesheet" type="text/css">
+
+    <!-- App css -->
+    <link href="\assets\css\bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
+    <link href="\assets\css\icons.min.css" rel="stylesheet" type="text/css">
+    <link href="\assets\css\app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
+    <link href="/assets/css/style.css">
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+    <th:block th:replace="/layout/navbar:: navbar"/>
+    <th:block th:replace="/layout/left_side :: left-side"/>
+
+    <!-- Topbar Start -->
+
+    <!-- end Topbar -->
+
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box">
+                            <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Uplon</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                    <li class="breadcrumb-item active">Responsive Table</li>
+                                </ol>
+                            </div>
+                            <h4 class="page-title">List User</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card-box">
+                            <div class="responsive-table-plugin">
+                                <div class="table-rep-plugin">
+                                    <div class="table-responsive" data-pattern="priority-columns">
+                                        <table id="tech-companies-1" class="table table-striped tbCustomer">
+                                            <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th data-priority="1">UserName</th>
+                                                <th data-priority="1">Name</th>
+                                                <th data-priority="3">Phone</th>
+                                                <th data-priority="3">Email</th>
+                                                <th data-priority="6">Address</th>
+                                                <th data-priority="6">Status</th>
+                                                <th data-priority="6">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- end .table-responsive -->
+
+                                </div> <!-- end .table-rep-plugin-->
+                            </div> <!-- end .responsive-table-plugin-->
+                        </div> <!-- end card-box -->
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+
+            </div> <!-- end container-fluid -->
+
+        </div> <!-- end content -->
+
+
+
+        <!-- Footer Start -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        2016 - 2019 &copy; Uplon theme by <a href="">Coderthemes</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+
+
+<script src="/assets/js/app/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/app/jquery.validate.js"></script>
+<th:block th:replace="/layout/script:: script"/>
+<!-- Vendor js -->
+<script src="\assets\js\vendor.min.js"></script>
+
+<!-- Responsive Table js -->
+<script src="\assets\libs\rwd-table\rwd-table.min.js"></script>
+
+<!-- Init js -->
+<script src="\assets\js\pages\responsive-table.init.js"></script>
+
+<!-- App js -->
+<script src="\assets\js\app.min.js"></script>
+<script>
+    let customer = new Customer();
+    function loadCustomers() {
+
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/api/customers"
+        })
+            .done((data) => {
+                $.each(data, (i, item) => {
+                    console.log(item);
+                    let str = `
+                                    <tr id="tr_${item.id}">
+                                       <td>${item.id}</td>
+                                       <td>${item.username}</td>
+                                        <td>${item.name}</td>
+                                       <td>${item.phone}</td>
+                                       <td>${item.email}</td>
+                                       <td>${item.address}</td>
+                                       <td>${item.status.status}</td>
+                        `;
+
+                    if(item.status.id === 1) {
+                        str += `        <td>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-danger block"> <i class="fas fa-lock"></i></i> </button>
+                                       </td>
+                                    </tr>`
+                    }else{
+                        str += `        <td>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-success block"> <i class="fas fa-unlock"></i></i> </button>
+                                       </td>
+                                    </tr>`
+                    }
+                    $(".tbCustomer tbody").prepend(str);
+                })
+                handleBlockBtn();
+                // showStatus();
+            });
+    }
+
+    function handleBlockBtn() {
+        $(".block").on("click", function () {
+            let id = $(this).data("id");
+            console.log(id);
+
+            findById(id).then(function () {
+                console.log(customer.status.id);
+                if(customer.status.id === 1){
+                    console.log(customer.status.id);
+                    App.SweetAlert.showSuspendConfirmDialogCustomer()
+                        .then((result) => {
+
+                            if (result.isConfirmed)
+                                doBlock();
+                        });
+                }else {
+                    App.SweetAlert.showUnlockConfirmDialogCustomer()
+                        .then((result) => {
+
+                            if (result.isConfirmed)
+                                doBlock();
+                        });
+                }
+            }).catch(() => {
+                alert("adssd");
+            })
+        })
+    }
+
+    function doBlock() {
+        $.ajax({
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json"
+            },
+            type: "PUT",
+            url: "http://localhost:8080/api/customers/block/" + customer.id,
+            data: JSON.stringify(customer)
+        })
+            .done((item) => {
+                console.log(item);
+
+                let str = `
+                                    <tr id="tr_${item.id}">
+                                       <td>${item.id}</td>
+                                       <td>${item.username}</td>
+                                        <td>${item.name}</td>
+                                       <td>${item.phone}</td>
+                                       <td>${item.email}</td>
+                                       <td>${item.address}</td>
+                                       <td>${item.status.status}</td>
+                        `;
+
+                if(item.status.id === 1) {
+                    str += `        <td>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-danger block"> <i class="fas fa-lock"></i></i> </button>
+                                       </td>
+                                    </tr>`
+                }else{
+                    str += `        <td>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-success block"> <i class="fas fa-unlock"></i></i> </button>
+                                       </td>
+                                    </tr>`
+                }
+
+                let currentRow = $('#tr_' + item);
+                currentRow.replaceWith(str);
+
+                handleBtn();
+                // $("#mdEdit").modal("hide");
+                if(item.status.id === 1) {
+                    App.SweetAlert.showSuccessAlert("BLock customer success!");
+                }else {
+                    App.SweetAlert.showSuccessAlert("Unlock customer success!");
+                }
+
+
+            })
+            .fail((jqXHR) => {
+
+                if (jqXHR.status === 401) {
+                    App.SweetAlert.showErrorAlert(App.ERROR_401);
+                    setTimeout(() => {
+                        location.href = "/logout";
+                    },3000)
+
+                } else if(jqXHR.status === 403) {
+                    App.SweetAlert.showErrorAlert(App.ERROR_403);
+
+                }  else if(jqXHR.status === 500) {
+                    App.SweetAlert.showErrorAlert(App.ERROR_500);
+                }
+            })
+
+        // $("#frmEdit")[0].reset();
+    }
+
+    function findById(id) {
+        return $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/api/customers/" + id
+        })
+            .done((data) => {
+                console.log(data);
+                customer = data;
+            })
+            .fail((err) => {
+                alert("Id not found");
+            })
+    }
+
+    loadCustomers();
+</script>
+
+</body>
+</html>

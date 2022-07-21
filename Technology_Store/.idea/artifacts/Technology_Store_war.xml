@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Technology_Store:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>Technology_Store</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="Technology_Store-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Technology_Store:war exploded" />
+    </root>
+  </artifact>
+</component>

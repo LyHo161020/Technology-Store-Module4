@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>CodePen - Slide Sign In/Sign Up form</title>
+      <th:block th:replace="/layout/head :: head"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+      <link rel="stylesheet" href="/assets/css/login.css">
+    </head>
+<body>
+  <!-- partial:index.partial.html -->
+    <div class="container right-panel-active">
+      <!-- Sign Up -->
+      <div class="container__form container--signup">
+        <form action="#" class="form" id="form1">
+          <h2 class="form__title">Sign Up</h2>
+<!--          <input type="text" placeholder="User" class="input" id="role"/>-->
+          <select placeholder="Role" class="input" id="role">
+            <option value="1">USER</option>
+            <option value="2">ADMIN</option>
+          </select>
+          <input type="email" id="regname" placeholder="Email" class="input" />
+          <input type="password" id="regpass" placeholder="Password" class="input" />
+          <button class="btn" id="btnRegister">Sign Up</button>
+        </form>
+      </div>
+
+      <!-- Sign In -->
+      <div class="container__form container--signin">
+        <form action="#" class="form" id="form2">
+          <h2 class="form__title">Sign In</h2>
+          <input type="email" id="name" placeholder="Email" class="input" />
+          <input type="password" id="pass" placeholder="Password" class="input" />
+          <a href="#" class="link">Forgot your password?</a>
+          <button class="btn" id="btnLogin">Sign In</button>
+        </form>
+      </div>
+
+      <!-- Overlay -->
+      <div class="container__overlay">
+        <div class="overlay">
+          <div class="overlay__panel overlay--left">
+            <button class="btn btn-signIn" id="signIn">Sign In</button>
+          </div>
+          <div class="overlay__panel overlay--right">
+            <button class="btn" id="signUp">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- partial -->
+  <th:block th:replace="/layout/script :: script"/>
+
+<script>
+    const signInBtn = document.getElementById("signIn");
+    const signUpBtn = document.getElementById("signUp");
+    const fistForm = document.getElementById("form1");
+    const secondForm = document.getElementById("form2");
+    const container = document.querySelector(".container");
+
+    signInBtn.addEventListener("click", () => {
+      container.classList.remove("right-panel-active");
+    });
+
+    signUpBtn.addEventListener("click", () => {
+      container.classList.add("right-panel-active");
+    });
+
+    fistForm.addEventListener("submit", (e) => e.preventDefault());
+    secondForm.addEventListener("submit", (e) => e.preventDefault());
+
+    $("#btnRegister").on("click", () => {
+      let user = {
+        username: $("#regname").val(),
+        password: $("#regpass").val(),
+        role: {
+          id: $("#role").val()
+        }
+      }
+      console.log(user);
+
+      $.ajax({
+        "headers": {
+          "accept": "application/json",
+          "content-type": "application/json"
+        },
+        "type": "POST",
+        "url": "http://localhost:8080/api/auth/register",
+        "data": JSON.stringify(user)
+      })
+              .done(() => {
+                // console.log("adsđ");
+                App.SweetAlert.showSuccessAlert("Đăng ký thành công!");
+                setTimeout(() => {
+                  $(".btn-signIn").click();
+                }, 2000);
+              })
+              .fail((jqXHR) => {
+                console.log(jqXHR)
+                alert("Register fail");
+              })
+    });
+
+    $("#btnLogin").on("click", () => {
+      let user = {
+        username: $("#name").val(),
+        password: $("#pass").val()
+      }
+
+      $.ajax({
+        "headers": {
+          "accept": "application/json",
+          "content-type": "application/json"
+        },
+        "type": "POST",
+        "url": "http://localhost:8080/api/auth/login",
+        "data": JSON.stringify(user)
+      })
+              .done(() => {
+                App.SweetAlert.showSuccessAlert('Đăng nhập thành công');
+                setTimeout(() => {
+                  location.href = "/products";
+                }, 2000);
+
+              })
+              .fail((jqXHR) => {
+                App.SweetAlert.showErrorAlert('Email hoặc mật khẩu không đúng!');
+              })
+    });
+
+</script>
+</body>
+</html>

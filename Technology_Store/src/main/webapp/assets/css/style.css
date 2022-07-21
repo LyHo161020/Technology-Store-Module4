@@ -1,0 +1,41 @@
+.btn-add {
+    margin-left: 65px !important;
+}
+
+.danger {
+    width: 1096px !important;
+    float: right !important;
+}
+
+td {
+    display: table-cell !important;
+    vertical-align: middle !important; /* Important */
+}
+
+.price {
+    color: #fe6f42;
+    font-weight: bold;
+}
+
+
+.modal-alert-danger {
+    padding: 10px 35px;
+    margin-bottom: 15px;
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.show {
+    display: block !important;
+}
+
+.hide  {
+    display: none;
+}
+
+label.error {
+    display: list-item;
+    margin-top: 5px;
+    color: #842029;
+}

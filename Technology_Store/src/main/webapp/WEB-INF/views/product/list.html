@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Datatables | Uplon - Responsive Bootstrap 4 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Responsive bootstrap 4 admin template" name="description">
+        <meta content="Coderthemes" name="author">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- App favicon -->
+        <link href="/assets/css/style.css" rel="stylesheet">
+        <link rel="shortcut icon" href="\assets\images\favicon.ico">
+
+        <!-- Table datatable css -->
+        <link href="\assets\libs\datatables\dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
+        <link href="\assets\libs\datatables\buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+        <link href="\assets\libs\datatables\responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
+        <link href="\assets\libs\datatables\select.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- App css -->
+        <link href="\assets\css\bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
+        <link href="\assets\css\icons.min.css" rel="stylesheet" type="text/css">
+        <link href="\assets\css\app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
+
+        <script src="/assets/js/app/jquery-3.6.0.min.js"></script>
+
+        <style>
+            td {
+                display: table-cell !important;
+                vertical-align: middle !important; /* Important */
+            }
+
+            .price {
+                color: #fe6f42;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+    <body>
+
+    <!-- Begin page -->
+    <div id="wrapper">
+
+        <th:block th:replace="/layout/navbar:: navbar"/>
+        <th:block th:replace="/layout/left_side :: left-side"/>
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Uplon</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                                        <li class="breadcrumb-item active">Data Tables</li>
+                                    </ol>
+                                </div>
+                                <h4 class="page-title">Data Tables</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-box">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h4 class="header-title">LIST PRODUCT</h4>
+                                    </div>
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3">
+                                        <button id="addProduct" class="btn btn-outline-primary btn-add"
+                                                style="margin-left: 15px">
+                                            <i class="fa fa-plus"></i> Add new Product
+                                        </button>
+                                    </div>
+                                </div>
+                                <p></p>
+
+                                <table id="tbProduct" class="table table-bordered dt-responsive nowrap"
+                                       style="border-collapse: collapse; border-spacing: 0; width: 100%;text-align: center ">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-1">Id</th>
+                                        <th class="col-2">Name</th>
+                                        <th class="col-2">Image</th>
+                                        <th class="col-2">Amount</th>
+                                        <th class="col-2">Price</th>
+                                        <th class="col-1">Category</th>
+                                        <th class="col-2">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+
+                </div> <!-- end container-fluid -->
+
+            </div> <!-- end content -->
+
+
+            <!-- Footer Start -->
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            2016 - 2019 &copy; Uplon theme by <a href="">Coderthemes</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- end Footer -->
+
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    <!--Modal-->
+    <th:block th:replace="/product/modal_create :: modal_create"/>
+    <th:block th:replace="/product/modal_update :: modal_update"/>
+
+
+    <!--Script-->
+
+
+    <th:block th:replace="/layout/script :: script"/>
+    <th:block th:replace="/layout/script :: script-page"/>
+
+    <script src="/assets/js/app/jquery.validate.js"></script>
+
+
+
+
+    <script>
+        let product = new Product();
+        let category = new Category();
+
+
+        function loadCustomers() {
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/api/products"
+            })
+                .done((data) => {
+                    $.each(data, (i, item) => {
+                        console.log(item);
+                        let str = `
+                                    <tr id="tr_${item.id}">
+                                       <td>${item.id}</td>
+                                       <td>${item.name}</td>
+                                       <td>
+                                           <img src="${item.image}" width="120px" height="auto"/>
+                                       </td>
+                                       <td>${item.amount}</td>
+                                       <td class="price">${item.price}</td>
+                                       <td>${item.category.categoryName}</td>
+                                       <td>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-secondary edit"> <i class="fas fa-pen-square"></i> </button>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-danger block"> <i class="fa fa-ban"></i> </button>
+                                       </td>
+                                    </tr>
+                        `;
+                        $("#tbProduct tbody").prepend(str);
+                    })
+                    handleBtn();
+                    showCategory();
+                });
+        }
+
+        $("#addProduct").on("click", function () {
+            $("#mdCreate").modal("show");
+        })
+
+        $("#btnCreate").on("click", function () {
+            $('#mdCreate .modal-alert-danger').removeClass('show').addClass('hide');
+            $("#mdCreate .modal-alert-danger").empty();
+            $('#frmCreate').submit();
+        })
+
+        $('#btnEdit').on('click', function () {
+            $('#mdEdit .modal-alert-danger').removeClass('show').addClass('hide');
+            $("#mdEdit .modal-alert-danger").empty();
+            $('#frmEdit').submit();
+        })
+
+        function doCreate() {
+            category.id = $("#category").val();
+            category.categoryName = $("#category option:selected").text();
+
+            delete product.id;
+            product.name = $('#name').val();
+            product.image = $('#image').val();
+            product.amount = $('#amount').val();
+            product.price = $('#price').val();
+            product.category = category;
+            product.isDeleted = +0;
+
+            $.ajax({
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json"
+                },
+                type: "POST",
+                url: "http://localhost:8080/api/products/create",
+                data: JSON.stringify(product)
+            })
+                .done((item) => {
+                    console.log(item);
+                    let str = `
+                                    <tr id="tr_${item.id}">
+                                       <td>${item.id}</td>
+                                       <td>${item.name}</td>
+                                       <td>
+                                           <img src="${item.image}" width="120px" height="auto"/>
+                                       </td>
+                                       <td>${item.amount}</td>
+                                       <td class="price">${item.price}</td>
+                                       <td>${item.category.categoryName}</td>
+                                       <td>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-secondary edit"> <i class="fas fa-pen-square"></i> </button>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-danger block"> <i class="fa fa-ban"></i> </button>
+                                       </td>
+                                    </tr>
+                        `;
+
+                    $("#tbProduct tbody").prepend(str);
+
+                    handleBtn();
+
+                    $("#mdCreate").modal("hide");
+
+                    App.SweetAlert.showSuccessAlert("Create product success!");
+                })
+                .fail((err) => {
+                    // console.log(err);
+                    //
+                    // let str = "";
+                    // if (err.responseJSON) {
+                    //     $.each(err.responseJSON, (key, value) => {
+                    //         str += `<label id = "${key}-error" class = "error" for="${key}"> ${value} </label>`;
+                    //         $("#" + key).addClass("error");
+                    //     })
+                    //     $("#mdCreate .modal-alert-danger").removeClass("hide").addClass("show").append(str);
+                    // }
+
+                    // $("#mdCreate .modal-alert-danger").empty().removeClass("hide").addClass("show");
+
+                    let str = ``;
+
+                    if (jqXHR.status === 401) {
+                        setTimeout(() => {
+                            App.SweetAlert.showErrorAlert(App.ERROR_401);
+                        },3000)
+
+                        location.href = "/logout";
+
+                    } else if(jqXHR.status === 403) {
+                            App.SweetAlert.showErrorAlert(App.ERROR_403);
+
+                    }  else if(jqXHR.status === 500) {
+                        App.SweetAlert.showErrorAlert(App.ERROR_500);
+                    } else if(jqXHR.responseJSON) {
+
+                        $.each(jqXHR.responseJSON, function (key, value) {
+                            str += `<label id="${key}-error" class="error" for="${key}">${value}</label>`;
+                            $("#" + key).addClass("error");
+                        });
+
+                    }
+
+                    $("#mdCreate .modal-alert-danger").empty().removeClass("hide").addClass("show").append(str);
+                });
+
+            $("#frmCreate")[0].reset();
+        }
+
+        function doEdit() {
+
+            category.id = $("#categoryUp").val();
+            category.categoryName = $("#categoryUp option:selected").text();
+            console.log(category);
+
+
+            product.name = $('#nameUp').val();
+            product.image = $('#imageUp').val();
+            product.amount = $('#amountUp').val();
+            product.price = $('#priceUp').val();
+            product.category = category;
+            console.log(product);
+
+            $.ajax({
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json"
+                },
+                type: "PUT",
+                url: "http://localhost:8080/api/products/edit/" + product.id,
+                data: JSON.stringify(product)
+            })
+                .done((item) => {
+                    console.log(item);
+                    let str = `
+                                    <tr id="tr_${item.id}">
+                                       <td>${item.id}</td>
+                                       <td>${item.name}</td>
+                                       <td>
+                                           <img src="${item.image}" width="120px" height="auto"/>
+                                       </td>
+                                       <td>${item.amount}</td>
+                                       <td class="price">${item.price}</td>
+                                       <td>${item.category.categoryName}</td>
+                                       <td>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-secondary edit"> <i class="fas fa-pen-square"></i> </button>
+                                             <button data-id = "${item.id}" type="button" class="btn btn-outline-danger block"> <i class="fa fa-ban"></i> </button>
+                                       </td>
+                                    </tr>
+                        `;
+
+                    let currentRow = $('#tr_' + item.id);
+                    currentRow.replaceWith(str);
+
+                    handleBtn();
+                    $("#mdEdit").modal("hide");
+
+                    App.SweetAlert.showSuccessAlert("Update product success!");
+
+                })
+                .fail((jqXHR) => {
+
+                    let str = ``;
+
+                    if (jqXHR.status === 401) {
+                        App.SweetAlert.showErrorAlert(App.ERROR_401);
+                        setTimeout(() => {
+                            location.href = "/logout";
+                        },3000)
+
+                    } else if(jqXHR.status === 403) {
+                        App.SweetAlert.showErrorAlert(App.ERROR_403);
+
+                    }  else if(jqXHR.status === 500) {
+                        App.SweetAlert.showErrorAlert(App.ERROR_500);
+                    } else if(jqXHR.responseJSON) {
+
+                        $.each(jqXHR.responseJSON, function (key, value) {
+                            str += `<label id="${key}Up-error" class="error" for="${key}Up">${value}</label>`;
+                            $("#" + key).addClass("error");
+                        });
+                        $("#mdEdit .modal-alert-danger").empty().removeClass("hide").addClass("show").append(str);
+                    }
+
+
+                })
+
+            // $("#frmEdit")[0].reset();
+        }
+
+        function doBlock() {
+            $.ajax({
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json"
+                },
+                type: "DELETE",
+                url: "http://localhost:8080/api/products/block/" + product.id,
+                data: JSON.stringify(product)
+            })
+                .done((item) => {
+                    console.log(item);
+
+                    let currentRow = $('#tr_' + item);
+                    currentRow.replaceWith("");
+
+                    handleBtn();
+                    // $("#mdEdit").modal("hide");
+
+                    App.SweetAlert.showSuccessAlert("Deleted product success!");
+
+                })
+                .fail((jqXHR) => {
+
+                    if (jqXHR.status === 401) {
+                        App.SweetAlert.showErrorAlert(App.ERROR_401);
+                        setTimeout(() => {
+                            location.href = "/logout";
+                        },3000)
+
+                    } else if(jqXHR.status === 403) {
+                        App.SweetAlert.showErrorAlert(App.ERROR_403);
+
+                    }  else if(jqXHR.status === 500) {
+                        App.SweetAlert.showErrorAlert(App.ERROR_500);
+                    }
+                })
+
+            // $("#frmEdit")[0].reset();
+        }
+
+        $('#frmCreate').validate({
+            // rules: {
+            //     name: {
+            //         required: true,
+            //         minlength: 3,
+            //         maxlength: 50
+            //     },
+            //     image: {
+            //         required: true,
+            //         // maxlength: 255
+            //     },
+            //     amount: {
+            //         required: true,
+            //         min: 10,
+            //         max: 100000
+            //     },
+            //     price: {
+            //         required: true,
+            //         min: 0,
+            //         max: 1000000000
+            //     }
+            // },
+            // messages: {
+            //     name: {
+            //         required: "Vui lòng nhập tên đầy đủ",
+            //         minlength: $.validator.format("Họ tên tối thiểu {0} ký tự"),
+            //         maxlength: $.validator.format("Họ tên tối đa {0} ký tự")
+            //     },
+            //     image: {
+            //         required: "Vui lòng nhập đường đẫn ảnh",
+            //         // maxlength: $.validator.format("Đường đẫn ảnh quá dài tối đa {0} ký tự")
+            //     },
+            //     amount: {
+            //         required: "Vui lòng nhập số lượng",
+            //         min: $.validator.format("Số lượng tối thiểu {0} "),
+            //         max: $.validator.format("Số lượng tối đa {0} ")
+            //     },
+            //     price: {
+            //         required: "Vui lòng nhập giá",
+            //         min: $.validator.format("Giá sản phẩm tối thiểu {0}đ!"),
+            //         max: $.validator.format("Giá sản phẩm tối đa {0}đ!")
+            //     }
+            // },
+            // errorLabelContainer: "#mdCreate .modal-alert-danger",
+            // errorPlacement: function (error, element) {
+            //     error.appendTo("#mdCreate .modal-alert-danger");
+            // },
+            // showErrors: function(errorMap, errorList) {
+            //     if (this.numberOfInvalids() > 0) {
+            //         $("#mdCreate .modal-alert-danger").removeClass("hide").addClass("show");
+            //     } else {
+            //         $("#mdCreate .modal-alert-danger").removeClass("show").addClass("hide").empty();
+            //         $("#frmCreate input.error").removeClass("error");
+            //     }
+            //     this.defaultShowErrors();
+            // },
+            submitHandler: function () {
+                doCreate();
+            }
+        });
+
+        $('#frmEdit').validate({
+            // rules: {
+            //     nameUp: {
+            //         required: true,
+            //         minlength: 3,
+            //         maxlength: 50
+            //     },
+            //     imageUp: {
+            //         required: true,
+            //         // maxlength: 255
+            //     },
+            //     amountUp: {
+            //         required: true,
+            //         min: 10,
+            //         max: 100000
+            //     },
+            //     priceUp: {
+            //         required: true,
+            //         min: 0,
+            //         max: 1000000000
+            //     }
+            // },
+            // messages: {
+            //     nameUp: {
+            //         required: "Vui lòng nhập tên đầy đủ",
+            //         minlength: $.validator.format("Họ tên tối thiểu {0} ký tự"),
+            //         maxlength: $.validator.format("Họ tên tối đa {0} ký tự")
+            //     },
+            //     imageUp: {
+            //         required: "Vui lòng nhập đường đẫn ảnh",
+            //         // maxlength: $.validator.format("Đường đẫn ảnh quá dài tối đa {0} ký tự")
+            //     },
+            //     amountUp: {
+            //         required: "Vui lòng nhập số lượng",
+            //         min: $.validator.format("Số lượng tối thiểu {0} "),
+            //         max: $.validator.format("Số lượng tối đa {0}  ")
+            //     },
+            //     priceUp: {
+            //         required: "Vui lòng nhập giá",
+            //         min: $.validator.format("Giá sản phẩm tối thiểu {0}đ!"),
+            //         max: $.validator.format("Giá sản phẩm tối đa {0}đ!")
+            //     }
+            // },
+            // errorLabelContainer: "#mdEdit .modal-alert-danger",
+            // errorPlacement: function (error, element) {
+            //     error.appendTo("#mdEdit .modal-alert-danger");
+            // },
+            // showErrors: function(errorMap, errorList) {
+            //     if (this.numberOfInvalids() > 0) {
+            //         $("#mdEdit .modal-alert-danger").removeClass("hide").addClass("show");
+            //     } else {
+            //         $("#mdEdit .modal-alert-danger").removeClass("show").addClass("hide").empty();
+            //         $("#frmEdit input.error").removeClass("error");
+            //     }
+            //     this.defaultShowErrors();
+            // },
+            submitHandler: function () {
+                doEdit();
+            }
+        });
+
+
+        $("#mdCreate").on("hidden.bs.modal", function () {
+            $("#mdCreate .modal-alert-danger").empty();
+            $("#frmCreate")[0].reset();
+            $('#mdCreate .modal-alert-danger').removeClass('show').addClass('hide');
+        });
+
+        $("#mdEdit").on("hidden.bs.modal", function () {
+            $("#mdEdit .modal-alert-danger").empty();
+            $("#mdEdit .modal-alert-danger").removeClass("show").addClass("hide");
+            $("#frmEdit input.error").removeClass("error");
+            $("#frmEdit")[0].reset();
+            $("#frmEdit").validate().resetForm();
+        });
+
+        function handleEditBtn() {
+
+            $('.edit').on('click', function () {
+                let id = $(this).data('id');
+
+                findById(id).then(function () {
+
+                    $('#nameUp').val(product.name);
+                    $('#imageUp').val(product.image);
+                    $('#amountUp').val(product.amount);
+                    $('#priceUp').val(product.price);
+                    $('#categoryUp').val(product.category.id);
+
+                    $('#mdEdit').modal('show');
+                });
+            });
+        }
+
+        function handleBlockUser() {
+            $(".block").on("click", function () {
+                let id = $(this).data("id");
+
+                findById(id).then(function () {
+                    App.SweetAlert.showSuspendConfirmDialog()
+                        .then((result) => {
+
+                            if (result.isConfirmed)
+                                doBlock();
+                        });
+                })
+            })
+        }
+
+        function handleBtn() {
+            handleEditBtn();
+            handleBlockUser();
+        }
+
+        function findById(id) {
+            return $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/api/products/" + id
+            })
+                .done((data) => {
+                    console.log(data);
+                    product = data;
+                })
+                .fail((err) => {
+                    alert("Id not found");
+                })
+        }
+
+
+        function showCategory() {
+
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/api/categories"
+            }).done((data) => {
+                console.log(data);
+                $("#category").empty();
+                $("#categoryUp").empty();
+
+                $.each(data, (i, item) => {
+                    let str = `<option value="${item.id}" >${item.categoryName}</option>`;
+                    $("#category").append(str);
+                    $("#categoryUp").append(str);
+                })
+            })
+                .fail((err) => {
+                    alert("Load category fail!");
+                })
+        }
+
+        loadCustomers();
+
+    </script>
+</body>
+
+</html>

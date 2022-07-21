@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:fragment="modal_update">
+    <div id="mdEdit" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-alert-danger hide">
+                    </div>
+                    <form id="frmEdit">
+                        <div class="row">
+                            <div class="col-xl-4">
+                                <label for="categoryUp">Category</label>
+                                <select type="text" id="categoryUp" name="categoryUp" class="form-control"></select>
+                            </div>
+
+                            <div class="col-xl-4">
+                                <label for="nameUp">Name</label>
+                                <input type="text" id="nameUp" name="nameUp" class="form-control">
+                            </div>
+
+                            <div class="col-xl-4">
+                                <label for="imageUp">Image</label>
+                                <input type="text" id="imageUp" name="imageUp" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-xl-2"></div>
+                            <div class="col-xl-4">
+                                <label for="amountUp">Amount</label>
+                                <input type="number" id="amountUp" name="amountUp" class="form-control"/>
+                            </div>
+
+                            <div class="col-xl-4">
+                                <label for="priceUp">Price</label>
+                                <input type="number" id="priceUp" name="priceUp" class="form-control"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnEdit" class="btn btn-outline-primary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+

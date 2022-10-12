@@ -146,7 +146,6 @@
         })
             .done((data) => {
                 $.each(data, (i, item) => {
-                    console.log(item);
                     let str = `
                                     <tr id="tr_${item.id}">
                                        <td>${item.id}</td>
@@ -169,7 +168,7 @@
                                        </td>
                                     </tr>`
                     }
-                    $(".tbCustomer tbody").prepend(str);
+                    $("#tech-companies-1 tbody").prepend(str);
                 })
                 handleBlockBtn();
                 // showStatus();
@@ -179,22 +178,17 @@
     function handleBlockBtn() {
         $(".block").on("click", function () {
             let id = $(this).data("id");
-            console.log(id);
 
             findById(id).then(function () {
-                console.log(customer.status.id);
                 if(customer.status.id === 1){
-                    console.log(customer.status.id);
                     App.SweetAlert.showSuspendConfirmDialogCustomer()
                         .then((result) => {
-
                             if (result.isConfirmed)
                                 doBlock();
                         });
                 }else {
                     App.SweetAlert.showUnlockConfirmDialogCustomer()
                         .then((result) => {
-
                             if (result.isConfirmed)
                                 doBlock();
                         });
@@ -222,7 +216,7 @@
                                     <tr id="tr_${item.id}">
                                        <td>${item.id}</td>
                                        <td>${item.username}</td>
-                                        <td>${item.name}</td>
+                                       <td>${item.name}</td>
                                        <td>${item.phone}</td>
                                        <td>${item.email}</td>
                                        <td>${item.address}</td>
@@ -241,10 +235,10 @@
                                     </tr>`
                 }
 
-                let currentRow = $('#tr_' + item);
+                let currentRow = $('#tr_' + item.id);
                 currentRow.replaceWith(str);
 
-                handleBtn();
+                handleBlockBtn();
                 // $("#mdEdit").modal("hide");
                 if(item.status.id === 1) {
                     App.SweetAlert.showSuccessAlert("BLock customer success!");
@@ -279,7 +273,6 @@
             url: "http://localhost:8080/api/customers/" + id
         })
             .done((data) => {
-                console.log(data);
                 customer = data;
             })
             .fail((err) => {

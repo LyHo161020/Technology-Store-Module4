@@ -43,21 +43,16 @@ public class CustomerRestController {
         if (!customer.isPresent()) {
             return new ResponseEntity<>("Không tìm thấy customer có id là:" + id + "!", HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        return new ResponseEntity<>(customer.get(), HttpStatus.OK);
     }
 
     @PutMapping("/block/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<?> doBlock(@PathVariable Long id, BindingResult bindingResult){
+    public ResponseEntity<?> doBlock(@PathVariable Long id){
         Optional<Customer> customer = customerService.findById(id);
 
         if (!customer.isPresent()) {
             return new ResponseEntity<>("Không tìm thấy customer có id là:" + id + "!", HttpStatus.NO_CONTENT);
-        }
-
-
-        if(bindingResult.hasErrors()){
-            return AppUtils.errors(bindingResult);
         }
 
         try{
@@ -67,8 +62,10 @@ public class CustomerRestController {
                 customerService.unlockCustomer(id);
             }
 
+            customer = customerService.findById(id);
 
-            return new ResponseEntity<>(id,HttpStatus.OK);
+
+            return new ResponseEntity<>(customer.get(),HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>("Server không xử lý được", HttpStatus.INTERNAL_SERVER_ERROR);
         }

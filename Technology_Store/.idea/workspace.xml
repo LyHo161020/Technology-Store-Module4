@@ -10,18 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e30f7f3f-8231-4c74-b3f2-df035f219fea" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cg/controller/rest/CustomerRestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cg/repository/CustomerRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cg/service/customer/CustomerServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/cg/service/customer/ICustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../BT/json-server" beforeDir="false" afterPath="$PROJECT_DIR$/../../BT/json-server" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cg/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg/controller/rest/ProductRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cg/controller/rest/ProductRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cg/model/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/product/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cg/controller/rest/CustomerRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cg/controller/rest/CustomerRestController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/assets/js/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/assets/js/app/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +32,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -67,7 +59,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/hoclaptrinh/Module4/Code/BT/demo-spring-ajax-api-banking-transaction-location - Copy&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;2e1e3c906c1f430dc4f89feb396a79c8&quot;
@@ -91,7 +83,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="Tomcat 9.0.63" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.63" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="Tomcat 9.0.65" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.65" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="redeploy-artifacts" />
       <deployment>
         <artifact name="Technology_Store:war">
@@ -101,7 +93,7 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="e72241e1-1b69-45e6-b99f-681a49d3810a" />
+        <option name="BASE_DIRECTORY_NAME" value="3e6598c3-654d-4316-8011-161f9888f213" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -109,7 +101,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="49226" />
+        <option name="DEBUG_PORT" value="50837" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -202,6 +194,10 @@
       <workItem from="1658303988733" duration="7849000" />
       <workItem from="1658369187698" duration="22355000" />
       <workItem from="1658418704588" duration="1015000" />
+      <workItem from="1665549218254" duration="161000" />
+      <workItem from="1665549714409" duration="1104000" />
+      <workItem from="1665557920265" duration="388000" />
+      <workItem from="1665558589777" duration="3008000" />
     </task>
     <servers />
   </component>
